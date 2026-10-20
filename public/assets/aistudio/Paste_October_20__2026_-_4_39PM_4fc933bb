@@ -1,0 +1,647 @@
+{
+  "project_name": "Xoom",
+  "version": "1.0.0",
+  "prompt_type": "strict",
+  "project_overview": {
+    "brand": "Xoom",
+    "tagline": "Move. Reset. Nourish.",
+    "description": "A three-space wellness app for workouts, mental resets, and simple nourishment. Extreme minimalism: one primary action per screen, generous whitespace, warm neutral surfaces, and a single clay accent. The app must feel like a quiet tool — calm, fast, and honest. No noise, no gamified clutter, no fitness-coach energy. A user opens the app, picks from a workout pool or just sets a timer, finishes, and the session logs itself. Two quiet companion spaces — Mind and Eat — sit beside the workout flow.",
+    "core_theme": "Nothing extra. Every screen does one thing. Every log happens automatically. The app is a still room, not a stadium.",
+    "requirements": "A complete, self-contained app build. Architecture and code quality are primary. No backend, auth providers, cloud sync, analytics, or CMS. All persistence is local (localStorage or IndexedDB). No social features, leaderboards, or notifications unless explicitly specified."
+  },
+  "tech_stack": {
+    "mandatory": [
+      "React 18+ with TypeScript (strict mode)",
+      "Vite (build tool)",
+      "Tailwind CSS (layout, spacing, typography, responsive behavior)",
+      "Framer Motion (all meaningful motion, transitions, timer and breathing animations)",
+      "React Router (routes for each space and screen)",
+      "Zustand (local app state)",
+      "date-fns (month calendar, date formatting)"
+    ],
+    "allowed": [
+      "Headless accessibility primitives (e.g., Radix Primitives) only where they do not impose visual design",
+      "idb-keyval or localStorage wrapper for persistence",
+      "clsx / tailwind-merge for class composition"
+    ],
+    "forbidden": [
+      "Angular, Vue, Svelte, or any non-React framework",
+      "jQuery",
+      "Bootstrap or any component CSS framework",
+      "CSS gradients (linear-gradient, radial-gradient, conic-gradient) anywhere",
+      "External SVG files (EXCEPTION: the brand logo mark and explicitly listed UI icons, inline only)",
+      "Any third-party icon library (Font Awesome, Lucide, Material Icons, Heroicons, Phosphor, etc.) — inline SVG only",
+      "Emojis in code, copy, or UI",
+      "Stock photos from any source",
+      "CSS keyframe animations as the primary motion mechanism (Framer Motion must drive all meaningful motion)",
+      "Confetti, streak flames, badges, trophies, or any gamification library",
+      "Chart libraries (no recharts, chart.js, d3) — stats are shown as plain numbers and a simple calendar",
+      "Backend, auth providers, or cloud sync"
+    ]
+  },
+  "color_system": {
+    "tokens": [
+      { "name": "color-paper", "hex": "#F4F0E8", "usage": "Dominant app background (warm paper)" },
+      { "name": "color-linen", "hex": "#ECE6DA", "usage": "Cards, sheets, session tray, input backgrounds" },
+      { "name": "color-sand", "hex": "#DFD7C8", "usage": "Borders on cards, inputs, dividers" },
+      { "name": "color-ink", "hex": "#1B1916", "usage": "Headings, primary text, primary button background" },
+      { "name": "color-graphite", "hex": "#3B3732", "usage": "Body text" },
+      { "name": "color-smoke", "hex": "#78716A", "usage": "Secondary text, captions, helper text, inactive tabs" },
+      { "name": "color-clay", "hex": "#B85A3C", "usage": "Single accent: active tab, running timer digits, selected chips, progress dots, focus ring" },
+      { "name": "color-clay-deep", "hex": "#98442A", "usage": "Pressed state for clay elements only" },
+      { "name": "color-white", "hex": "#FFFFFF", "usage": "Text only, and only on ink or clay backgrounds" }
+    ],
+    "rules": [
+      "Background is always color-paper unless an element is a card or sheet (color-linen).",
+      "Body text is color-graphite on paper. Headings are color-ink.",
+      "Primary buttons: color-ink background, color-white text.",
+      "Secondary buttons: transparent background, 1px color-ink border, color-ink text.",
+      "The clay accent is the ONLY accent color. It appears only on: active bottom-tab, running timer digits, selected filter chips, selected workout card border, mood/effort dot selection, focus-visible ring, and streak count on the You screen.",
+      "The three spaces (Train, Mind, Eat) are NOT color-coded. Differentiation is by layout, copy, and inline icons only.",
+      "No gradients anywhere. Flat fills only.",
+      "No color transitions via CSS. Any color change is handled by Framer Motion or is an instant state swap.",
+      "Never place clay text on ink or white-on-clay for body copy. Clay is for small marks and digits, not paragraphs.",
+      "Cards use color-linen background, 1px solid color-sand border, no shadow. Depth comes from the border, not shadow.",
+      "Shadows are forbidden everywhere except a single optional soft shadow on the bottom sheet / modal (0 8px 24px rgba(27,25,22,0.08))."
+    ]
+  },
+  "typography": {
+    "fonts": {
+      "headings": {
+        "family": "Fraunces",
+        "weights": [500, 600],
+        "source": "Google Fonts",
+        "notes": "Warm soft-serif. Used for screen titles, section headers, and card titles. Never used for buttons or labels."
+      },
+      "body": {
+        "family": "DM Sans",
+        "weights": [400, 500, 600],
+        "source": "Google Fonts",
+        "notes": "All UI text, body copy, labels, buttons, captions."
+      },
+      "numeric": {
+        "family": "DM Mono",
+        "weights": [400, 500],
+        "source": "Google Fonts",
+        "notes": "Strictly for timers, stats numbers, and calendar day numbers. Creates a calm technical counterpoint to the warm serif."
+      }
+    },
+    "scale": {
+      "display_timer": "DM Mono, 500, clamp(4rem, 18vw, 7rem), color-ink, letter-spacing -0.02em, tabular-nums",
+      "h1_screen_title": "Fraunces, 600, clamp(1.75rem, 5vw, 2.5rem), color-ink, letter-spacing -0.02em, line-height 1.15",
+      "h2_section": "Fraunces, 600, 1.375rem, color-ink",
+      "h3_card": "Fraunces, 500, 1.0625rem, color-ink",
+      "body": "DM Sans, 400, 0.9375rem / 1.6, color-graphite",
+      "caption": "DM Sans, 500, 0.8125rem, color-smoke",
+      "label_uppercase": "DM Sans, 600, 0.6875rem, uppercase, letter-spacing 0.12em, color-smoke",
+      "button_text": "DM Sans, 600, 0.8125rem, uppercase, letter-spacing 0.08em",
+      "stat_number": "DM Mono, 500, 1.75rem, color-ink, tabular-nums",
+      "stat_label": "DM Sans, 500, 0.6875rem, uppercase, letter-spacing 0.1em, color-smoke"
+    }
+  },
+  "logo": {
+    "type": "Inline SVG wordmark + mark",
+    "design": "A single horizontal baseline stroke (color-ink) with one short parallel dash offset above and to the right — a mark caught mid-motion, held still. Beside it, the wordmark 'Xoom' set in Fraunces 600, letter-spacing -0.02em. The mark reads as speed reduced to its minimum: two lines, one dot of intention.",
+    "requirements": [
+      "Inline SVG only — no external .svg files",
+      "Accessible: role=\"img\" with aria-label=\"Xoom logo\"",
+      "On light surfaces: baseline, dash, and wordmark are color-ink",
+      "Logo is tappable and always routes to the Train screen",
+      "Minimum clear space: 16px on all sides",
+      "The mark must be legible at 20px height"
+    ],
+    "hover_animation": {
+      "library": "Framer Motion",
+      "sequence": [
+        { "action": "Short dash translates right 3px and slightly up (x: 3, y: -1)", "duration": 0.16, "ease": "easeOut" },
+        { "action": "Dash springs back to rest position", "transition": { "type": "spring", "stiffness": 260, "damping": 16 } }
+      ]
+    }
+  },
+  "app_shell": {
+    "type": "Mobile-first PWA-style app shell with a persistent bottom tab bar",
+    "layout": "Single centered column. On mobile: full width with 20px horizontal padding. On desktop: content max-width 720px, centered, with the bottom tab bar pinned to viewport bottom and centered to the same 720px.",
+    "top_bar": {
+      "height": "56px",
+      "content": ["Logo (left)", "Account avatar/button (right)"],
+      "background": "color-paper (no border, no shadow)",
+      "behavior": "Static on Train, Mind, Eat. On scroll, top bar remains but gains a 1px color-sand bottom border."
+    },
+    "bottom_tab_bar": {
+      "height": "64px",
+      "background": "color-paper with 1px color-sand top border",
+      "tabs": [
+        { "id": "train", "label": "Train", "route": "/train", "icon": "session-mark" },
+        { "id": "you", "label": "You", "route": "/you", "icon": "person-mark" },
+        { "id": "mind", "label": "Mind", "route": "/mind", "icon": "breath-mark" },
+        { "id": "eat", "label": "Eat", "route": "/eat", "icon": "bowl-mark" }
+      ],
+      "tab_style": {
+        "default": "Icon color-smoke, label color-smoke, DM Sans 500 0.6875rem",
+        "active": "Icon and label color-clay",
+        "tap_feedback": "Framer Motion scale 0.94 on press, spring back"
+      },
+      "transition": "Tab route changes cross-fade content with Framer Motion (opacity 0→1, y 8→0, 0.22s easeOut). No slide."
+    },
+    "safe_area": "Respect env(safe-area-inset-bottom) on iOS."
+  },
+  "screens": {
+    "train_home": {
+      "route": "/train",
+      "title": "Train",
+      "purpose": "The entry point. Two choices, nothing else.",
+      "layout": "Vertical stack with generous spacing. No scroll on short screens; allows scroll only for recent sessions list.",
+      "elements": [
+        {
+          "type": "greeting",
+          "text": "Dynamic: 'Good morning.' / 'Good afternoon.' / 'Good evening.'",
+          "style": "Fraunces, 500, 1rem, color-smoke"
+        },
+        {
+          "type": "primary_choice",
+          "label": "Build a session",
+          "description": "Pick workouts from the pool, then set a time limit.",
+          "style": "Full-width card, color-linen background, 1px color-sand border, 24px padding, 12px radius",
+          "action": "Navigate to /train/build",
+          "hover_press": "Framer Motion whileTap scale 0.985"
+        },
+        {
+          "type": "secondary_choice",
+          "label": "Just a timer",
+          "description": "No picking. Set a time and go.",
+          "style": "Full-width card, transparent background, 1px color-ink border, 24px padding, 12px radius",
+          "action": "Open the time-limit sheet with only the timer control",
+          "hover_press": "Framer Motion whileTap scale 0.985"
+        },
+        {
+          "type": "recent_sessions",
+          "title": "Recent",
+          "rows": "Last 3 session logs — date, duration, first two workout names",
+          "row_style": "DM Sans 0.875rem, divider 1px color-sand between rows",
+          "empty_state": "No sessions yet. The list simply does not render.",
+          "action": "Tap a row to open its log detail"
+        }
+      ]
+    },
+    "session_builder": {
+      "route": "/train/build",
+      "title": "Build",
+      "purpose": "Pick workouts from the pool into a session tray.",
+      "layout": "Sticky filter row at top, scrollable pool of workout cards, sticky session tray at bottom above the tab bar.",
+      "filters": {
+        "type": "Horizontal scrollable chips",
+        "groups": ["Body area", "Equipment", "Duration"],
+        "chip_style": "DM Sans 500 0.75rem, color-graphite, 1px color-sand border, 999px radius, padding 8px 14px",
+        "selected_chip": "color-clay border, color-clay text, no fill",
+        "behavior": "Multi-select within a group. Filters collapse below the title on scroll."
+      },
+      "pool_cards": {
+        "data": "Workout pool (see data_model.workout)",
+        "card_style": "color-linen background, 1px color-sand border, 16px padding, 12px radius, full width",
+        "card_content": "Name (Fraunces 500, 1.0625rem), short tag row (body area / equipment, caption style), estimated duration (DM Mono, caption)",
+        "selected_state": "1px color-clay border, small clay dot top-right, no scale",
+        "tap_behavior": "Adds/removes from session tray. Framer Motion tap scale 0.98.",
+        "empty_state": "No workouts match these filters."
+      },
+      "session_tray": {
+        "position": "Sticky bottom, above the tab bar, color-paper background with 1px color-sand top border",
+        "content": "Count of selected workouts, total estimated time, and a primary button 'Set time limit'",
+        "primary_button": "Full width, color-ink background, color-white text, uppercase, 0 radius, 14px vertical padding",
+        "disabled_state": "When zero workouts selected, the primary button is disabled (color-smoke text, color-linen background)",
+        "action": "Opens the time-limit bottom sheet"
+      }
+    },
+    "time_limit_sheet": {
+      "type": "Bottom sheet, Framer Motion slide-up (y 100%→0, 0.28s easeOut), backdrop color-paper at 70% opacity",
+      "title": "Set a time limit",
+      "title_style": "Fraunces, 600, 1.25rem, color-ink",
+      "controls": [
+        {
+          "type": "preset_duration_chips",
+          "values": ["5 min", "10 min", "15 min", "20 min", "30 min", "45 min"],
+          "chip_style": "DM Mono 500 0.875rem, 1px color-sand border, 999px radius, 10px 16px padding",
+          "selected_chip": "color-clay border, color-clay text"
+        },
+        {
+          "type": "custom_duration",
+          "label": "Custom",
+          "input": "Number input with 'min' suffix, DM Mono, inline"
+        }
+      ],
+      "primary_action": "Start",
+      "primary_action_style": "Full width, color-ink background, color-white text, uppercase, 0 radius",
+      "primary_action_behavior": "If a session has workouts: navigate to /train/active with the built session. If it is a just-timer session: navigate to /train/active with only the timer.",
+      "close": "Backdrop tap or a text button 'Cancel' in caption style closes the sheet"
+    },
+    "active_session": {
+      "route": "/train/active",
+      "purpose": "The running session. Nothing except the timer and current item.",
+      "layout": "Full-height centered stack. No top bar. No tab bar. A single 'End' text button top-right.",
+      "elements": [
+        {
+          "type": "timer",
+          "display": "Counts up from 0 OR counts down from the limit — user preference set in Settings, default count-up",
+          "style": "display_timer — DM Mono, color-ink, tabular-nums, centered vertically",
+          "behavior": "Digits do not animate per second. Only the colon blinks if reduced-motion is off; with reduced motion, no blink."
+        },
+        {
+          "type": "current_item",
+          "display": "If the session has workouts: the current workout name (Fraunces, 500, 1.125rem, color-smoke), centered below the timer. For just-timer sessions, this element does not render.",
+          "behavior": "If a workout has a target duration, auto-advance after that duration with a soft Framer Motion fade."
+        },
+        {
+          "type": "controls",
+          "pause_resume": "Text button, DM Sans 600 uppercase, color-graphite",
+          "end": "Text button top-right, DM Sans 600 uppercase, color-clay",
+          "skip": "Only when a session has workouts: a small 'Next' text button, caption style"
+        }
+      ],
+      "pause_state": "Timer digits drop to color-smoke while paused. A single caption 'Paused' appears below. No animation."
+    },
+    "session_complete": {
+      "route": "/train/complete",
+      "purpose": "Auto-log confirmation. Minimum effort to finish.",
+      "layout": "Centered stack with generous spacing.",
+      "auto_logged_fields": ["Date", "Duration", "Workouts (if any)"],
+      "elements": [
+        {
+          "type": "title",
+          "text": "Logged.",
+          "style": "Fraunces, 600, 2rem, color-ink"
+        },
+        {
+          "type": "summary",
+          "text": "Duration in DM Mono + list of workouts in caption style",
+          "style": "Centered, no card"
+        },
+        {
+          "type": "optional_effort",
+          "label": "Effort",
+          "type": "Five dots, tap to select 1–5",
+          "style": "Dots 12px, color-sand default, color-clay when selected",
+          "optional": true
+        },
+        {
+          "type": "optional_note",
+          "label": "Note",
+          "style": "Single-line text input, color-linen background, 1px color-sand border, 8px radius, no placeholder text",
+          "optional": true
+        },
+        {
+          "type": "primary_action",
+          "label": "Done",
+          "style": "Full width, color-ink background, color-white text, uppercase, 0 radius",
+          "action": "Persist log, navigate to /train"
+        }
+      ]
+    },
+    "you_account": {
+      "route": "/you",
+      "title": "You",
+      "purpose": "Stats, month calendar, logs.",
+      "layout": "Vertical stack, scrollable.",
+      "elements": [
+        {
+          "type": "stat_row",
+          "stats": ["Total sessions", "Total time", "Current streak"],
+          "stat_style": "stat_number + stat_label stacked. Three equal columns. 1px color-sand top and bottom borders on the row. No cards.",
+          "streak_style": "Streak value in color-clay"
+        },
+        {
+          "type": "month_calendar",
+          "month_label": "Fraunces, 600, 1.125rem — e.g., 'October 2026'",
+          "nav": "Left/right chevron buttons (inline SVG), 44px tap targets",
+          "grid": "7 columns, weekday initials in label_uppercase, day numbers in DM Mono 0.875rem",
+          "day_states": {
+            "default": "color-graphite number, no mark",
+            "has_log": "color-ink number with a 4px clay dot beneath",
+            "today": "1px color-ink border around the cell",
+            "selected": "color-linen background fill"
+          },
+          "tap": "Tapping a day with a log opens its log detail. Tapping a day without a log does nothing (no empty sheet).",
+          "no_weekend_styling": "Weekends look identical to weekdays."
+        },
+        {
+          "type": "log_list",
+          "title": "Logs",
+          "rows": "Reverse chronological. Each row: date (caption), duration (DM Mono), first workout or 'Timer' (caption)",
+          "row_style": "color-paper background, 1px color-sand divider between rows, 16px vertical padding",
+          "empty_state": "No logs yet. The section title renders alone.",
+          "action": "Tap row → log detail"
+        },
+        {
+          "type": "settings_link",
+          "label": "Settings",
+          "style": "Text row at the bottom, caption style, chevron",
+          "action": "Navigate to /you/settings"
+        }
+      ]
+    },
+    "log_detail": {
+      "route": "/you/log/:id",
+      "layout": "Vertical stack.",
+      "fields": [
+        { "label": "Date", "value": "Formatted long date", "style": "Fraunces, 600, 1.5rem" },
+        { "label": "Duration", "value": "DM Mono, 1.25rem" },
+        { "label": "Workouts", "value": "Ordered list, body style", "hide_if": "just-timer session" },
+        { "label": "Effort", "value": "Selected dots, read-only", "hide_if": "not set" },
+        { "label": "Note", "value": "Body copy", "hide_if": "empty" }
+      ],
+      "actions": [
+        { "label": "Edit note", "style": "Secondary button" },
+        { "label": "Delete", "style": "Text button, color-clay", "confirm": "Inline confirm row appears with 'Delete' and 'Cancel' — no modal" }
+      ]
+    },
+    "mind_space": {
+      "route": "/mind",
+      "title": "Mind",
+      "purpose": "A quiet reset. Three tools.",
+      "layout": "Vertical stack.",
+      "elements": [
+        {
+          "type": "intro",
+          "text": "A quiet room. Pick one.",
+          "style": "Fraunces, 500, 1rem, color-smoke"
+        },
+        {
+          "type": "tool_cards",
+          "tools": [
+            { "id": "breathe", "name": "Breathe", "description": "Guided box breathing, 4-4-4-4." },
+            { "id": "pause", "name": "Pause", "description": "A silent timer. Sit with it." },
+            { "id": "check_in", "name": "Check in", "description": "One mood, one line." }
+          ],
+          "card_style": "Identical to Train's primary choice card (color-linen, color-sand border, 12px radius)",
+          "action": "Opens the respective Mind flow"
+        }
+      ]
+    },
+    "mind_breathe": {
+      "route": "/mind/breathe",
+      "purpose": "Box breathing with a calm expanding mark.",
+      "elements": [
+        {
+          "type": "breath_mark",
+          "design": "A single inline SVG circle, 1px color-ink stroke, no fill",
+          "animation": "Framer Motion scales the circle between 0.6 and 1.0 in a 4-4-4-4 cycle (inhale 4s, hold 4s, exhale 4s, hold 4s). Linear easing. No color change.",
+          "reduced_motion": "Static circle with a text countdown only"
+        },
+        {
+          "type": "phase_label",
+          "text": "Inhale / Hold / Exhale / Hold",
+          "style": "label_uppercase, centered"
+        },
+        {
+          "type": "duration",
+          "default": "3 minutes",
+          "control": "Same preset chips as the time-limit sheet, plus 'Open' (no limit)"
+        },
+        {
+          "type": "end_action",
+          "label": "End",
+          "style": "Text button, top-right, uppercase, color-clay"
+        }
+      ],
+      "on_end": "Optional prompt: 'Log this reset?' with a single primary 'Log' and a text 'Not now'. Logging is always optional here."
+    },
+    "mind_pause": {
+      "route": "/mind/pause",
+      "purpose": "A silent timer with no guidance.",
+      "elements": [
+        { "type": "timer", "style": "display_timer, count-up, no sound" },
+        { "type": "duration_hint", "text": "A single caption line: 'Sit until you are done.'" },
+        { "type": "end_action", "label": "End", "style": "Text button, top-right, uppercase, color-clay" }
+      ],
+      "on_end": "Same optional log prompt as Breathe."
+    },
+    "mind_check_in": {
+      "route": "/mind/check-in",
+      "purpose": "One mood, one line.",
+      "elements": [
+        {
+          "type": "mood_scale",
+          "labels": ["Low", "Soft", "Even", "Warm", "Bright"],
+          "style": "Five options as text labels in DM Sans 500, 1px color-sand border, 999px radius",
+          "selected": "color-clay border, color-clay text"
+        },
+        {
+          "type": "note_input",
+          "label": "One line",
+          "style": "Single-line input, color-linen background, 1px color-sand border, 8px radius"
+        },
+        {
+          "type": "primary_action",
+          "label": "Save",
+          "style": "Full width, color-ink background, color-white text, uppercase, 0 radius"
+        }
+      ]
+    },
+    "eat_space": {
+      "route": "/eat",
+      "title": "Eat",
+      "purpose": "Simple nourishment. No calorie math.",
+      "layout": "Vertical stack.",
+      "elements": [
+        {
+          "type": "intro",
+          "text": "Nourishment, kept simple.",
+          "style": "Fraunces, 500, 1rem, color-smoke"
+        },
+        {
+          "type": "meal_idea",
+          "label": "Idea of the day",
+          "content": "One short meal idea line (from a static local list, rotates daily)",
+          "style": "color-linen card, color-sand border, 12px radius. Meal name in Fraunces 500 1.0625rem, one-line description in caption.",
+          "action": "A text button 'Another' cycles to the next idea. No save button — the idea is ephemeral."
+        },
+        {
+          "type": "water_tracker",
+          "label": "Water",
+          "content": "Row of up to 8 small circles. Tapping an empty circle fills it with color-clay. Tapping a filled circle empties it.",
+          "style": "18px circles, 1px color-sand border, filled with color-clay",
+          "reset": "Resets at local midnight via derived logic"
+        },
+        {
+          "type": "meal_note",
+          "label": "Note a meal",
+          "style": "Single-line input + a primary 'Save' button, same style as Mind check-in",
+          "saved_list": "Below: today's saved meal notes, caption style, tap to delete with inline confirm"
+        }
+      ]
+    },
+    "settings": {
+      "route": "/you/settings",
+      "title": "Settings",
+      "layout": "Vertical list of plain rows.",
+      "rows": [
+        { "id": "timer_mode", "label": "Timer", "control": "Segmented control: Count up / Count down", "default": "Count up" },
+        { "id": "units", "label": "Units", "control": "Segmented control: Minutes / Minutes and seconds", "default": "Minutes" },
+        { "id": "reduce_motion", "label": "Reduce motion", "control": "Toggle", "default": "Follows system preference" },
+        { "id": "about", "label": "About Xoom", "control": "Static text: version and a single sentence" },
+        { "id": "clear_data", "label": "Clear all data", "control": "Text button, color-clay, inline confirm" }
+      ],
+      "row_style": "1px color-sand divider between rows. Label DM Sans 500 0.9375rem color-graphite. Control right-aligned."
+    }
+  },
+  "design_principles": [
+    "One primary action per screen. If a screen has two, one is visually dominant.",
+    "Whitespace is the design. Never fill space to avoid emptiness.",
+    "No cards inside cards. No borders on borders.",
+    "The timer is the only element allowed to be visually loud. Everything else is quiet.",
+    "Numbers (durations, stats, timers, day numbers) use DM Mono. Prose and labels use DM Sans. Titles use Fraunces.",
+    "The clay accent earns its use. If clay appears more than three times on one screen, remove one.",
+    "No decorative icons. Every inline SVG icon carries information.",
+    "Motion is soft, brief, and functional. If it doesn't clarify a state change, it does not animate.",
+    "No empty-state illustrations. Empty states are a single caption line or nothing.",
+    "The three spaces never compete for attention. Each screen starts fresh."
+  ],
+  "motion_system": {
+    "library": "Framer Motion only",
+    "principles": [
+      "All meaningful transitions use Framer Motion. CSS transitions are allowed only for :hover color swaps on desktop and focus ring appearance.",
+      "Animate transform and opacity only. Never animate layout properties (width, height, top, left).",
+      "Default easing: easeOut. Default duration: 0.22s for route changes and small state changes.",
+      "Bottom sheets: y 100%→0, 0.28s easeOut, backdrop opacity 0→0.7 in the same duration.",
+      "While-tap feedback: scale 0.97–0.985 on cards and buttons, spring back with stiffness 400 damping 30.",
+      "Route transitions: cross-fade, opacity 0→1 and y 8→0, 0.22s. No slide, no scale.",
+      "Timer digits: no per-second animation. Digits swap instantly.",
+      "Breathing circle: Framer Motion scale loop, 4-4-4-4, linear.",
+      "Respect prefers-reduced-motion. When reduced: no breathing scale loop, no dot blink, no while-tap scale. Route transitions become a plain opacity fade of 0.15s."
+    ],
+    "cleanup": "Every Framer Motion animation, loop, and effect must clean up on unmount. Timers must clearInterval in a useEffect cleanup."
+  },
+  "accessibility": {
+    "priority": "High",
+    "requirements": [
+      "Semantic HTML landmarks (header, nav, main, section).",
+      "Every interactive element has an accessible name. Icon-only buttons use aria-label.",
+      "Bottom tab bar is a <nav> with role navigation; each tab is a link with aria-current='page' when active.",
+      "All form inputs have associated <label> elements (visually hidden where necessary).",
+      "Focus-visible state: 2px solid color-clay outline, 2px offset, on every interactive element.",
+      "Keyboard operable: sheets trap focus while open and return focus to the trigger on close.",
+      "Minimum tap target 44×44px.",
+      "Color contrast: body text at least 4.5:1 on color-paper. Clay digits on paper are large and meet the large-text ratio.",
+      "The timer is exposed to assistive tech with an aria-live='off' region — updated text must not be announced every second. Announce only start, pause, and end via aria-live='polite'.",
+      "Mood and effort dots are radio groups with visible labels, not color-only selectors.",
+      "Skip-to-content link, visually hidden until focused.",
+      "Reduced motion support across the entire app.",
+      "All inline SVG icons: aria-hidden='true' when paired with text, role='img' with aria-label when standalone."
+    ]
+  },
+  "responsive_behavior": {
+    "mobile": "Primary target. Full-width column with 20px horizontal padding. Bottom tab bar pinned. Sheets are full-width, dragged up from the bottom.",
+    "tablet": "Content column max-width 720px, centered. Bottom tab bar remains.",
+    "desktop": "Content column max-width 720px, centered, with 64px top and bottom padding. Bottom tab bar becomes a centered, floating pill fixed to the viewport bottom, 720px wide, with the same 1px color-sand top border.",
+    "performance": {
+      "target_fps": "60fps on mid-range devices",
+      "animation_performance": "transform and opacity only",
+      "no_image_assets": "The app contains no photos. All visuals are typography, color, borders, and inline SVG."
+    }
+  },
+  "data_model": {
+    "storage": "localStorage or IndexedDB via a thin Zustand store. No backend. No accounts.",
+    "entities": {
+      "workout": {
+        "fields": ["id: string", "name: string", "bodyArea: string[]", "equipment: string[]", "durationMin: number | null"],
+        "notes": "Static pool of ~20 workouts seeded on first run. Names are short (e.g., 'Push-ups', 'Walk', 'Deadlift', 'Stretch'). No descriptions."
+      },
+      "session_log": {
+        "fields": ["id: string", "date: ISO string", "durationSec: number", "mode: 'built' | 'timer'", "workoutIds: string[]", "effort: 1–5 | null", "note: string | null"]
+      },
+      "mind_log": {
+        "fields": ["id: string", "date: ISO string", "type: 'breathe' | 'pause' | 'check-in'", "durationSec: number | null", "mood: 1–5 | null", "note: string | null"]
+      },
+      "eat_log": {
+        "fields": ["id: string", "date: ISO string", "type: 'meal-note' | 'water'", "value: string | number"]
+      },
+      "settings": {
+        "fields": ["timerMode: 'up' | 'down'", "units: 'min' | 'minsec'", "reduceMotion: boolean"]
+      }
+    },
+    "derived": {
+      "streak": "Consecutive days ending today (or yesterday, at zero-hour grace) that contain at least one session_log or mind_log.",
+      "total_time": "Sum of durationSec across all session_logs.",
+      "calendar_marks": "Any day containing at least one session_log shows a clay dot on the month calendar."
+    }
+  },
+  "placeholder_content": {
+    "workout_pool_seed": [
+      "Push-ups", "Squats", "Plank", "Lunges", "Walk", "Run", "Row", "Deadlift",
+      "Overhead press", "Pull-ups", "Stretch", "Mobility", "Jump rope", "Bike", "Swim",
+      "Kettlebell swing", "Hip hinge", "Core twist", "Calf raise", "Breath work"
+    ],
+    "meal_ideas_seed": [
+      "Eggs on toast with greens.",
+      "Lentils, rice, and lemon.",
+      "Yogurt, oats, and berries.",
+      "Roasted vegetables and tahini.",
+      "Soup with bread.",
+      "Rice, beans, and avocado."
+    ],
+    "copy_rules": [
+      "Copy is calm and short. No exclamation marks.",
+      "No motivational slogans. No 'crush it', 'let's go', 'beast mode', 'no excuses'.",
+      "Button labels are verbs or single words: 'Start', 'Done', 'Save', 'End', 'Log'.",
+      "Empty states are at most one short sentence, often nothing.",
+      "The brand name is always written 'Xoom' — capital X only, never 'XOOM' or 'xoom'."
+    ]
+  },
+  "screen_order": [
+    "/train (Train home)",
+    "/train/build (Session builder)",
+    "Time-limit bottom sheet",
+    "/train/active (Active session)",
+    "/train/complete (Session complete)",
+    "/you (Account)",
+    "/you/log/:id (Log detail)",
+    "/you/settings (Settings)",
+    "/mind (Mind home)",
+    "/mind/breathe",
+    "/mind/pause",
+    "/mind/check-in",
+    "/eat (Eat home)"
+  ],
+  "developer_notes": [
+    "Prioritize clean architecture, typed state, and small composable components over feature breadth.",
+    "All copy lives in a single content constants module. Never hardcode copy in JSX.",
+    "The brand name 'Xoom' is referenced from a single brand constant — never hardcoded in multiple places.",
+    "All colors, fonts, radii, and spacing are defined as CSS custom properties and mapped into Tailwind config.",
+    "All motion uses Framer Motion. No CSS keyframes for meaningful motion.",
+    "Timers must be implemented with a single interval per active session and cleaned up on unmount and on pause.",
+    "Session state must survive a page refresh during an active session (persist to localStorage).",
+    "The session builder must preserve its selected workouts if the user navigates away and returns (persist tray in Zustand + localStorage).",
+    "The month calendar is derived from logs, never manually marked.",
+    "Streak calculation must handle timezone by using the user's local date.",
+    "All inline SVG icons are stored as small React components in a single icons file.",
+    "No component should exceed ~120 lines. Extract when it grows.",
+    "The three spaces share layout primitives (Screen, Stack, Card, PrimaryButton, TextButton, Chip). Build the primitives first.",
+    "The app must work offline after first load (Vite PWA plugin is allowed but optional).",
+    "Target 60fps on mid-range mobile. Use CSS containment where lists grow.",
+    "Test on iOS Safari and Android Chrome as primary targets."
+  ],
+  "allowed_svg_icons": [
+    "Logo mark (baseline stroke + offset dash)",
+    "Session mark (Train tab) — a simple horizontal line with a short vertical tick",
+    "Person mark (You tab)",
+    "Breath mark (Mind tab) — a small circle with one inner arc",
+    "Bowl mark (Eat tab)",
+    "Chevron (calendar navigation, list rows)",
+    "Close mark (bottom sheet dismiss)",
+    "Checkmark (completion, water filled)"
+  ],
+  "forbidden_patterns": [
+    "No gradients anywhere.",
+    "No emojis in copy, code, or UI.",
+    "No stock photos. The app has no images at all — only typography, color, borders, and inline SVG.",
+    "No third-party icon fonts or icon libraries.",
+    "No confetti, streak flames, trophies, badges, or leaderboards.",
+    "No cards with drop shadows.",
+    "No rounded buttons or inputs — interactive elements have 0 border-radius. Cards and sheets use 12px.",
+    "No color-coded spaces. Clay is the only accent.",
+    "No clay text on ink, and no white text on paper.",
+    "No 'fitness coach' copy. No exclamation marks.",
+    "No charts. Stats are plain numbers.",
+    "No onboarding carousel. A first-run empty state on each screen is enough.",
+    "No sound effects.",
+    "No haptics except a single light tap on session complete (optional, native only)."
+  ]
+}

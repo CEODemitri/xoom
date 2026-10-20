@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #F4F0E8;
+  --color-linen: #ECE6DA;
+  --color-sand: #DFD7C8;
+  --color-ink: #1B1916;
+  --color-graphite: #3B3732;
+  --color-smoke: #78716A;
+  --color-clay: #B85A3C;
+  --color-clay-deep: #98442A;
+  --color-white: #FFFFFF;
+
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-sans: "DM Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  --color-paper: #F4F0E8;
+  --color-linen: #ECE6DA;
+  --color-sand: #DFD7C8;
+  --color-ink: #1B1916;
+  --color-graphite: #3B3732;
+  --color-smoke: #78716A;
+  --color-clay: #B85A3C;
+  --color-clay-deep: #98442A;
+  --color-white: #FFFFFF;
+}
+
+html, body {
+  background-color: var(--color-paper);
+  color: var(--color-graphite);
+  font-family: "DM Sans", system-ui, -apple-system, sans-serif;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Accessible focus visible ring across all interactive controls */
+:focus-visible {
+  outline: 2px solid #B85A3C !important;
+  outline-offset: 2px !important;
+}
+
+/* Number inputs without arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Safe area insets for mobile iOS / Android */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+}

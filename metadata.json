@@ -1,0 +1,6 @@
+{
+  "name": "Xoom",
+  "description": "Move. Reset. Nourish. A quiet three-space wellness app for workouts, mental resets, and simple nourishment.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
