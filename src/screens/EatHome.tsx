@@ -14,7 +14,6 @@ export const EatHome: React.FC = () => {
   } = useStore();
 
   const [ideaIndex, setIdeaIndex] = useState(() => {
-    // Initial idea derived from day of year
     const now = new Date();
     const dayOfYear = Math.floor(
       (now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / 1000 / 60 / 60 / 24
@@ -47,43 +46,46 @@ export const EatHome: React.FC = () => {
     <div className="flex flex-col space-y-10">
       {/* Header */}
       <div>
-        <p className="font-serif font-medium text-base text-[#78716A]">
+        <p className="font-serif font-medium text-base text-[#71717A]">
           {COPY.eat.intro}
         </p>
-        <h1 className="font-serif font-semibold text-3xl md:text-4xl text-[#1B1916] mt-1 tracking-[-0.02em]">
+        <h1 className="font-serif font-semibold text-3xl md:text-4xl text-[#09090B] mt-1 tracking-[-0.02em]">
           {COPY.eat.title}
         </h1>
       </div>
 
       {/* Idea of the Day Card */}
       <section>
-        <div className="bg-[#ECE6DA] border border-[#DFD7C8] p-6 rounded-xl space-y-3">
+        <div className="bg-[#FFFFFF] border border-[#E4E4E7] p-6 rounded-xl space-y-3 shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
           <div className="flex items-center justify-between">
-            <span className="font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#78716A]">
+            <span className="font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#71717A]">
               {COPY.eat.ideaLabel}
             </span>
             <button
               type="button"
               onClick={handleNextIdea}
-              className="font-sans text-xs uppercase tracking-wider text-[#78716A] hover:text-[#1B1916] p-1 min-h-[44px] flex items-center focus-visible:outline-2 focus-visible:outline-[#B85A3C]"
+              className="font-sans text-xs uppercase tracking-wider text-[#71717A] hover:text-[#09090B] p-1 min-h-[44px] flex items-center focus-visible:outline-2 focus-visible:outline-[#09090B]"
             >
               {COPY.eat.anotherIdea}
             </button>
           </div>
-          <p className="font-serif font-medium text-lg text-[#1B1916] leading-snug">
+          <p className="font-serif font-medium text-lg text-[#09090B] leading-snug">
             {currentIdea}
           </p>
         </div>
       </section>
 
-      {/* Water Tracker: 8 circles */}
-      <section className="space-y-4">
+      {/* Water Tracker: 8 circles with Blue for completed glasses */}
+      <section className="space-y-4 bg-[#FFFFFF] border border-[#E4E4E7] p-5 rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
         <div className="flex items-center justify-between">
-          <span className="font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#78716A]">
-            {COPY.eat.waterLabel}
-          </span>
-          <span className="font-mono text-xs text-[#78716A] tabular-nums">
-            {waterCount} / 8
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#2563EB]" aria-hidden="true" />
+            <span className="font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#71717A]">
+              {COPY.eat.waterLabel}
+            </span>
+          </div>
+          <span className="font-mono text-xs text-[#09090B] font-medium tabular-nums">
+            {waterCount} / 8 completed
           </span>
         </div>
 
@@ -95,14 +97,14 @@ export const EatHome: React.FC = () => {
                 key={index}
                 type="button"
                 onClick={() => toggleWaterCircle(index)}
-                aria-label={`Water glass ${index + 1} of 8, ${isFilled ? 'filled' : 'empty'}`}
-                className="w-11 h-11 flex items-center justify-center focus-visible:outline-2 focus-visible:outline-[#B85A3C]"
+                aria-label={`Water glass ${index + 1} of 8, ${isFilled ? 'completed' : 'empty'}`}
+                className="w-11 h-11 flex items-center justify-center focus-visible:outline-2 focus-visible:outline-[#09090B]"
               >
                 <span
-                  className={`w-[18px] h-[18px] rounded-full border transition-colors ${
+                  className={`w-[20px] h-[20px] rounded-full border transition-colors ${
                     isFilled
-                      ? 'bg-[#B85A3C] border-[#B85A3C]'
-                      : 'bg-transparent border-[#DFD7C8] hover:border-[#78716A]'
+                      ? 'bg-[#2563EB] border-[#2563EB]'
+                      : 'bg-transparent border-[#E4E4E7] hover:border-[#71717A]'
                   }`}
                 />
               </button>
@@ -115,7 +117,7 @@ export const EatHome: React.FC = () => {
       <section className="space-y-4 pt-2">
         <label
           htmlFor="eat-meal-input"
-          className="block font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#78716A]"
+          className="block font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#71717A]"
         >
           {COPY.eat.noteMealLabel}
         </label>
@@ -132,7 +134,7 @@ export const EatHome: React.FC = () => {
               }
             }}
             placeholder=""
-            className="flex-1 bg-[#ECE6DA] border border-[#DFD7C8] rounded-lg px-4 py-3 font-sans text-sm text-[#1B1916] focus:outline-none focus:border-[#B85A3C]"
+            className="flex-1 bg-[#FFFFFF] border border-[#E4E4E7] rounded-lg px-4 py-3 font-sans text-sm text-[#09090B] focus:outline-none focus:border-[#09090B]"
           />
           <Button
             variant="primary"
@@ -145,9 +147,9 @@ export const EatHome: React.FC = () => {
         </div>
 
         {/* Today's Saved Meals */}
-        <div className="pt-4 border-t border-[#DFD7C8] space-y-2">
+        <div className="pt-4 border-t border-[#E4E4E7] space-y-2">
           {todayMeals.length === 0 ? (
-            <p className="font-sans text-xs uppercase tracking-wider text-[#78716A] py-2">
+            <p className="font-sans text-xs uppercase tracking-wider text-[#71717A] py-2">
               {COPY.eat.noMealsToday}
             </p>
           ) : (
@@ -158,13 +160,14 @@ export const EatHome: React.FC = () => {
               return (
                 <div
                   key={meal.id}
-                  className="flex items-center justify-between py-2 border-b border-[#DFD7C8]/70"
+                  className="flex items-center justify-between py-2 border-b border-[#E4E4E7]/70"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="font-sans text-xs text-[#78716A] w-14 shrink-0">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] shrink-0" aria-hidden="true" />
+                    <span className="font-sans text-xs text-[#71717A] w-14 shrink-0">
                       {timeStr}
                     </span>
-                    <span className="font-sans text-sm text-[#3B3732]">
+                    <span className="font-sans text-sm text-[#27272A]">
                       {meal.text}
                     </span>
                   </div>
@@ -174,14 +177,14 @@ export const EatHome: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => deleteMealNote(meal.id)}
-                        className="font-sans font-semibold text-xs uppercase tracking-wider text-[#B85A3C] p-1"
+                        className="font-sans font-semibold text-xs uppercase tracking-wider text-[#DC2626] p-1"
                       >
                         {COPY.eat.deleteMealConfirm}
                       </button>
                       <button
                         type="button"
                         onClick={() => setDeleteConfirmId(null)}
-                        className="font-sans text-xs uppercase tracking-wider text-[#78716A] p-1"
+                        className="font-sans text-xs uppercase tracking-wider text-[#71717A] p-1"
                       >
                         {COPY.eat.deleteMealCancel}
                       </button>
@@ -190,7 +193,7 @@ export const EatHome: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setDeleteConfirmId(meal.id)}
-                      className="font-sans text-xs text-[#78716A] hover:text-[#B85A3C] p-2 min-h-[36px]"
+                      className="font-sans text-xs text-[#71717A] hover:text-[#DC2626] p-2 min-h-[36px]"
                     >
                       Delete
                     </button>

@@ -19,11 +19,11 @@ export const Layout: React.FC = () => {
   const isBuildRoute = location.pathname === '/train/build';
 
   return (
-    <div className="min-h-screen bg-[#F4F0E8] text-[#3B3732] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#FAFAFA] text-[#18181B] flex flex-col font-sans">
       {/* Accessible skip link */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#1B1916] focus:text-[#FFFFFF] focus:text-xs focus:font-semibold"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#09090B] focus:text-[#FFFFFF] focus:text-xs focus:font-semibold"
       >
         {COPY.a11y.skipToContent}
       </a>

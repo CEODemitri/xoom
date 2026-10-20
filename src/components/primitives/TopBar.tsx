@@ -22,15 +22,15 @@ export const TopBar: React.FC = () => {
 
   return (
     <header
-      className={`sticky top-0 z-30 w-full bg-[#F4F0E8] transition-colors ${
-        hasScrolled ? 'border-b border-[#DFD7C8]' : 'border-b border-transparent'
+      className={`sticky top-0 z-30 w-full bg-[#FAFAFA] transition-colors ${
+        hasScrolled ? 'border-b border-[#E4E4E7]' : 'border-b border-transparent'
       }`}
     >
       <div className="max-w-[720px] mx-auto h-14 px-5 flex items-center justify-between">
         <button
           type="button"
           onClick={() => navigate('/train')}
-          className="focus-visible:outline-2 focus-visible:outline-[#B85A3C] focus-visible:outline-offset-2 p-1 -ml-1 text-left"
+          className="focus-visible:outline-2 focus-visible:outline-[#09090B] focus-visible:outline-offset-2 p-1 -ml-1 text-left"
           aria-label={COPY.a11y.logoLabel}
         >
           <LogoLockup isReducedMotion={settings.reduceMotion} />
@@ -39,8 +39,8 @@ export const TopBar: React.FC = () => {
         <button
           type="button"
           onClick={() => navigate('/you')}
-          className={`min-w-[44px] min-h-[44px] flex items-center justify-center p-2 focus-visible:outline-2 focus-visible:outline-[#B85A3C] focus-visible:outline-offset-2 transition-colors ${
-            isYouActive ? 'text-[#B85A3C]' : 'text-[#78716A] hover:text-[#1B1916]'
+          className={`min-w-[44px] min-h-[44px] flex items-center justify-center p-2 focus-visible:outline-2 focus-visible:outline-[#09090B] focus-visible:outline-offset-2 transition-colors ${
+            isYouActive ? 'text-[#09090B]' : 'text-[#71717A] hover:text-[#09090B]'
           }`}
           aria-label={COPY.a11y.profileLabel}
           aria-current={isYouActive ? 'page' : undefined}

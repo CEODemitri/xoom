@@ -43,7 +43,7 @@ export const LogoLockup: React.FC<{
           y1="6"
           x2="22"
           y2="6"
-          stroke="#1B1916"
+          stroke="#09090B"
           strokeWidth="2.2"
           strokeLinecap="round"
           animate={
@@ -59,12 +59,12 @@ export const LogoLockup: React.FC<{
           y1="16"
           x2="24"
           y2="16"
-          stroke="#1B1916"
+          stroke="#09090B"
           strokeWidth="2.2"
           strokeLinecap="round"
         />
       </svg>
-      <span className="font-serif font-semibold text-xl tracking-[-0.02em] text-[#1B1916] leading-none pt-0.5">
+      <span className="font-serif font-semibold text-xl tracking-[-0.02em] text-[#09090B] leading-none pt-0.5">
         {BRAND_NAME}
       </span>
     </div>

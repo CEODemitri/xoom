@@ -20,11 +20,11 @@ export const LogDetail: React.FC = () => {
   if (!log) {
     return (
       <div className="py-12 text-center space-y-4">
-        <p className="font-sans text-sm text-[#78716A]">Session log not found.</p>
+        <p className="font-sans text-sm text-[#71717A]">Session log not found.</p>
         <button
           type="button"
           onClick={() => navigate('/you')}
-          className="font-sans text-xs uppercase tracking-wider text-[#1B1916] underline"
+          className="font-sans text-xs uppercase tracking-wider text-[#09090B] underline"
         >
           {COPY.logDetail.back}
         </button>
@@ -60,7 +60,7 @@ export const LogDetail: React.FC = () => {
         <button
           type="button"
           onClick={() => navigate(-1)}
-          className="inline-flex items-center gap-1 font-sans text-xs uppercase tracking-wider text-[#78716A] hover:text-[#1B1916] p-1 -ml-1 focus-visible:outline-2 focus-visible:outline-[#B85A3C]"
+          className="inline-flex items-center gap-1 font-sans text-xs uppercase tracking-wider text-[#71717A] hover:text-[#09090B] p-1 -ml-1 focus-visible:outline-2 focus-visible:outline-[#09090B]"
         >
           <ChevronLeft size={16} aria-hidden="true" />
           <span>{COPY.logDetail.back}</span>
@@ -69,31 +69,34 @@ export const LogDetail: React.FC = () => {
 
       {/* Date */}
       <div>
-        <span className="font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#78716A]">
-          {COPY.logDetail.date}
-        </span>
-        <h1 className="font-serif font-semibold text-2xl md:text-3xl text-[#1B1916] mt-1">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="w-2 h-2 rounded-full bg-[#2563EB]" aria-hidden="true" />
+          <span className="font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#2563EB]">
+            Completed Session
+          </span>
+        </div>
+        <h1 className="font-serif font-semibold text-2xl md:text-3xl text-[#09090B] mt-1">
           {formattedDate}
         </h1>
       </div>
 
       {/* Duration */}
       <div>
-        <span className="font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#78716A]">
+        <span className="font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#71717A]">
           {COPY.logDetail.duration}
         </span>
-        <p className="font-mono text-xl text-[#1B1916] mt-1 tabular-nums">
+        <p className="font-mono text-xl text-[#09090B] mt-1 tabular-nums">
           {durationText}
         </p>
       </div>
 
-      {/* Workouts (Hide if just-timer session) */}
+      {/* Workouts */}
       {workoutNames.length > 0 && (
         <div>
-          <span className="font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#78716A]">
+          <span className="font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#71717A]">
             {COPY.logDetail.workouts}
           </span>
-          <ol className="mt-2 space-y-1.5 list-decimal list-inside font-sans text-sm text-[#3B3732]">
+          <ol className="mt-2 space-y-1.5 list-decimal list-inside font-sans text-sm text-[#27272A]">
             {workoutNames.map((name, i) => (
               <li key={i}>{name}</li>
             ))}
@@ -101,10 +104,10 @@ export const LogDetail: React.FC = () => {
         </div>
       )}
 
-      {/* Effort (Hide if not set) */}
+      {/* Effort (Blue for completed rating) */}
       {log.effort && (
         <div>
-          <span className="font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#78716A]">
+          <span className="font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#71717A]">
             {COPY.logDetail.effort}
           </span>
           <div className="flex items-center gap-2 mt-2">
@@ -112,7 +115,7 @@ export const LogDetail: React.FC = () => {
               <span
                 key={level}
                 className={`w-3 h-3 rounded-full ${
-                  level <= log.effort! ? 'bg-[#B85A3C]' : 'bg-[#DFD7C8]'
+                  level <= log.effort! ? 'bg-[#2563EB]' : 'bg-[#E4E4E7]'
                 }`}
                 aria-hidden="true"
               />
@@ -124,7 +127,7 @@ export const LogDetail: React.FC = () => {
       {/* Note */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <span className="font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#78716A]">
+          <span className="font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#71717A]">
             {COPY.logDetail.note}
           </span>
           {!isEditingNote && (
@@ -134,7 +137,7 @@ export const LogDetail: React.FC = () => {
                 setNoteDraft(log.note || '');
                 setIsEditingNote(true);
               }}
-              className="font-sans text-xs uppercase tracking-wider text-[#78716A] hover:text-[#1B1916]"
+              className="font-sans text-xs uppercase tracking-wider text-[#71717A] hover:text-[#09090B]"
             >
               {COPY.logDetail.editNote}
             </button>
@@ -147,7 +150,7 @@ export const LogDetail: React.FC = () => {
               type="text"
               value={noteDraft}
               onChange={(e) => setNoteDraft(e.target.value)}
-              className="w-full bg-[#ECE6DA] border border-[#DFD7C8] rounded-lg px-4 py-2.5 font-sans text-sm text-[#1B1916] focus:outline-none focus:border-[#B85A3C]"
+              className="w-full bg-[#FFFFFF] border border-[#E4E4E7] rounded-lg px-4 py-2.5 font-sans text-sm text-[#09090B] focus:outline-none focus:border-[#09090B]"
             />
             <div className="flex items-center gap-3">
               <Button variant="primary" onClick={handleSaveNote} className="px-4 py-2">
@@ -156,37 +159,37 @@ export const LogDetail: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsEditingNote(false)}
-                className="font-sans text-xs uppercase tracking-wider text-[#78716A] hover:text-[#1B1916] px-2 py-2"
+                className="font-sans text-xs uppercase tracking-wider text-[#71717A] hover:text-[#09090B] px-2 py-2"
               >
                 {COPY.logDetail.cancelEdit}
               </button>
             </div>
           </div>
         ) : log.note ? (
-          <p className="font-sans text-sm text-[#3B3732] leading-relaxed bg-[#ECE6DA] border border-[#DFD7C8] p-3 rounded-lg">
+          <p className="font-sans text-sm text-[#27272A] leading-relaxed bg-[#FFFFFF] border border-[#E4E4E7] p-3 rounded-lg">
             {log.note}
           </p>
         ) : (
-          <p className="font-sans text-xs text-[#78716A] italic">No note added.</p>
+          <p className="font-sans text-xs text-[#71717A] italic">No note added.</p>
         )}
       </div>
 
-      {/* Delete Action: Inline confirm row — no modal! */}
-      <div className="pt-8 border-t border-[#DFD7C8]">
+      {/* Delete Action: Inline confirm row */}
+      <div className="pt-8 border-t border-[#E4E4E7]">
         {showDeleteConfirm ? (
-          <div className="flex items-center gap-4 bg-[#ECE6DA] p-3 rounded-lg border border-[#DFD7C8]">
-            <span className="font-sans text-xs text-[#1B1916]">Delete this log?</span>
+          <div className="flex items-center gap-4 bg-[#FFFFFF] p-3 rounded-lg border border-[#E4E4E7]">
+            <span className="font-sans text-xs text-[#09090B]">Delete this log?</span>
             <button
               type="button"
               onClick={handleDelete}
-              className="font-sans font-semibold text-xs uppercase tracking-wider text-[#B85A3C] hover:text-[#98442A] p-2"
+              className="font-sans font-semibold text-xs uppercase tracking-wider text-[#DC2626] hover:text-[#B91C1C] p-2"
             >
               {COPY.logDetail.confirmDelete}
             </button>
             <button
               type="button"
               onClick={() => setShowDeleteConfirm(false)}
-              className="font-sans text-xs uppercase tracking-wider text-[#78716A] hover:text-[#1B1916] p-2"
+              className="font-sans text-xs uppercase tracking-wider text-[#71717A] hover:text-[#09090B] p-2"
             >
               {COPY.logDetail.cancelDelete}
             </button>
@@ -195,7 +198,7 @@ export const LogDetail: React.FC = () => {
           <button
             type="button"
             onClick={() => setShowDeleteConfirm(true)}
-            className="font-sans font-semibold text-xs uppercase tracking-wider text-[#B85A3C] hover:text-[#98442A] p-2 min-h-[44px] flex items-center focus-visible:outline-2 focus-visible:outline-[#B85A3C]"
+            className="font-sans font-semibold text-xs uppercase tracking-wider text-[#DC2626] hover:text-[#B91C1C] p-2 min-h-[44px] flex items-center focus-visible:outline-2 focus-visible:outline-[#09090B]"
           >
             {COPY.logDetail.delete}
           </button>

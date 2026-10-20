@@ -27,7 +27,6 @@ export const MindBreathe: React.FC = () => {
 
   const timerRef = useRef<number | null>(null);
 
-  // 1-second interval for clock and 4-4-4-4 breathing cycle
   useEffect(() => {
     timerRef.current = window.setInterval(() => {
       setElapsedSec((prev) => prev + 1);
@@ -46,7 +45,6 @@ export const MindBreathe: React.FC = () => {
     };
   }, []);
 
-  // Check if target duration reached (if not open)
   useEffect(() => {
     if (selectedDurationSec > 0 && elapsedSec >= selectedDurationSec) {
       if (timerRef.current) clearInterval(timerRef.current);
@@ -56,23 +54,14 @@ export const MindBreathe: React.FC = () => {
 
   const currentPhase = PHASES[phaseIndex];
 
-  // Circle scale target based on current 4s phase:
-  // Inhale: expands 0.6 -> 1.0
-  // Hold 1: stays 1.0
-  // Exhale: contracts 1.0 -> 0.6
-  // Hold 2: stays 0.6
   let circleScale = 0.6;
   if (phaseIndex === 0) {
-    // Inhale: 4 - phaseCount is 0, 1, 2, 3
     circleScale = 0.6 + ((4 - phaseCount + 1) / 4) * 0.4;
   } else if (phaseIndex === 1) {
-    // Hold top
     circleScale = 1.0;
   } else if (phaseIndex === 2) {
-    // Exhale
     circleScale = 1.0 - ((4 - phaseCount + 1) / 4) * 0.4;
   } else {
-    // Hold bottom
     circleScale = 0.6;
   }
 
@@ -97,13 +86,20 @@ export const MindBreathe: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen -mt-6 -mx-5 px-5 py-6 flex flex-col justify-between bg-[#F4F0E8] select-none">
-      {/* Top action: END button */}
-      <div className="flex justify-end pt-2">
+    <div className="min-h-screen -mt-2 -mx-4 sm:-mx-5 px-4 sm:px-5 py-6 flex flex-col justify-between bg-[#FAFAFA] select-none">
+      {/* Top action: Status + END button */}
+      <div className="flex items-center justify-between pt-2">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-[#DC2626] animate-pulse" aria-hidden="true" />
+          <span className="font-sans text-[11px] uppercase tracking-wider text-[#71717A] font-medium">
+            Reset In Progress
+          </span>
+        </div>
+
         <button
           type="button"
           onClick={handleEnd}
-          className="font-sans font-semibold text-xs uppercase tracking-wider text-[#B85A3C] hover:text-[#98442A] p-2 min-h-[44px] min-w-[44px] flex items-center justify-center focus-visible:outline-2 focus-visible:outline-[#B85A3C]"
+          className="font-sans font-semibold text-xs uppercase tracking-wider text-[#DC2626] hover:text-[#B91C1C] p-2 min-h-[44px] min-w-[44px] flex items-center justify-center focus-visible:outline-2 focus-visible:outline-[#09090B]"
         >
           {COPY.active.end}
         </button>
@@ -131,7 +127,7 @@ export const MindBreathe: React.FC = () => {
               cx="110"
               cy="110"
               r="100"
-              stroke="#1B1916"
+              stroke="#09090B"
               strokeWidth="1.5"
               fill="none"
             />
@@ -139,14 +135,14 @@ export const MindBreathe: React.FC = () => {
 
           {/* Phase Count display in center */}
           <div className="absolute flex flex-col items-center">
-            <span className="font-mono text-3xl font-medium text-[#1B1916] tabular-nums">
+            <span className="font-mono text-3xl font-medium text-[#09090B] tabular-nums">
               {phaseCount}
             </span>
           </div>
         </div>
 
-        {/* Phase Label: Inhale / Hold / Exhale */}
-        <p className="font-sans font-semibold text-xs uppercase tracking-[0.16em] text-[#78716A] mt-6">
+        {/* Phase Label */}
+        <p className="font-sans font-semibold text-xs uppercase tracking-[0.16em] text-[#71717A] mt-6">
           {currentPhase.trim()}
         </p>
       </div>
@@ -158,10 +154,10 @@ export const MindBreathe: React.FC = () => {
             key={preset.label}
             type="button"
             onClick={() => setSelectedDurationSec(preset.sec)}
-            className={`font-mono text-xs px-3.5 py-2 rounded-full border transition-colors select-none min-h-[40px] focus-visible:outline-2 focus-visible:outline-[#B85A3C] ${
+            className={`font-mono text-xs px-3.5 py-2 rounded-full border transition-colors select-none min-h-[40px] focus-visible:outline-2 focus-visible:outline-[#09090B] ${
               selectedDurationSec === preset.sec
-                ? 'border-[#B85A3C] text-[#B85A3C] bg-transparent'
-                : 'border-[#DFD7C8] text-[#3B3732] bg-transparent hover:border-[#78716A]'
+                ? 'border-[#09090B] text-[#09090B] bg-white font-medium'
+                : 'border-[#E4E4E7] text-[#27272A] bg-white hover:border-[#71717A]'
             }`}
           >
             {preset.label}
@@ -172,16 +168,19 @@ export const MindBreathe: React.FC = () => {
       {/* Optional Log Prompt Modal */}
       <AnimatePresence>
         {isFinishedPromptOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-5 bg-[#F4F0E8]/80">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-5 bg-[#09090B]/30">
             <motion.div
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.96 }}
               transition={{ duration: 0.2 }}
-              style={{ boxShadow: '0 8px 24px rgba(27,25,22,0.08)' }}
-              className="w-full max-w-sm bg-[#ECE6DA] border border-[#DFD7C8] rounded-xl p-6 text-center space-y-6"
+              style={{ boxShadow: '0 8px 30px rgba(0,0,0,0.08)' }}
+              className="w-full max-w-sm bg-[#FFFFFF] border border-[#E4E4E7] rounded-xl p-6 text-center space-y-6"
             >
-              <h2 className="font-serif font-semibold text-xl text-[#1B1916]">
+              <div className="w-8 h-8 rounded-full bg-[#2563EB]/10 text-[#2563EB] mx-auto flex items-center justify-center">
+                <span className="w-2 h-2 rounded-full bg-[#2563EB]" />
+              </div>
+              <h2 className="font-serif font-semibold text-xl text-[#09090B]">
                 {COPY.mind.logPrompt}
               </h2>
               <div className="flex flex-col space-y-3">
@@ -191,7 +190,7 @@ export const MindBreathe: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleNotNow}
-                  className="font-sans text-xs uppercase tracking-wider text-[#78716A] hover:text-[#1B1916] p-2"
+                  className="font-sans text-xs uppercase tracking-wider text-[#71717A] hover:text-[#09090B] p-2"
                 >
                   {COPY.mind.notNow}
                 </button>

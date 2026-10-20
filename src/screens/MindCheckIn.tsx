@@ -39,7 +39,7 @@ export const MindCheckIn: React.FC = () => {
         <button
           type="button"
           onClick={() => navigate('/mind')}
-          className="inline-flex items-center gap-1 font-sans text-xs uppercase tracking-wider text-[#78716A] hover:text-[#1B1916] p-1 -ml-1 focus-visible:outline-2 focus-visible:outline-[#B85A3C]"
+          className="inline-flex items-center gap-1 font-sans text-xs uppercase tracking-wider text-[#71717A] hover:text-[#09090B] p-1 -ml-1 focus-visible:outline-2 focus-visible:outline-[#09090B]"
         >
           <ChevronLeft size={16} aria-hidden="true" />
           <span>{COPY.mind.title}</span>
@@ -47,10 +47,10 @@ export const MindCheckIn: React.FC = () => {
       </div>
 
       <div>
-        <h1 className="font-serif font-semibold text-3xl md:text-4xl text-[#1B1916] tracking-[-0.02em]">
+        <h1 className="font-serif font-semibold text-3xl md:text-4xl text-[#09090B] tracking-[-0.02em]">
           {COPY.mind.checkIn}
         </h1>
-        <p className="font-sans text-sm text-[#78716A] mt-1">
+        <p className="font-sans text-sm text-[#71717A] mt-1">
           {COPY.mind.checkInDesc}
         </p>
       </div>
@@ -59,7 +59,7 @@ export const MindCheckIn: React.FC = () => {
       <div className="space-y-3 pt-2">
         <label
           id="mood-scale-label"
-          className="block font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#78716A]"
+          className="block font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#71717A]"
         >
           Mood
         </label>
@@ -77,10 +77,10 @@ export const MindCheckIn: React.FC = () => {
                 role="radio"
                 aria-checked={isSelected}
                 onClick={() => setSelectedMood(mood)}
-                className={`font-sans font-medium text-xs px-4 py-2.5 rounded-full border transition-colors select-none min-h-[44px] focus-visible:outline-2 focus-visible:outline-[#B85A3C] ${
+                className={`font-sans font-medium text-xs px-4 py-2.5 rounded-full border transition-colors select-none min-h-[44px] focus-visible:outline-2 focus-visible:outline-[#09090B] ${
                   isSelected
-                    ? 'border-[#B85A3C] text-[#B85A3C] bg-transparent'
-                    : 'border-[#DFD7C8] text-[#3B3732] bg-transparent hover:border-[#78716A]'
+                    ? 'border-[#09090B] text-[#09090B] bg-[#FFFFFF] font-semibold ring-1 ring-[#09090B]'
+                    : 'border-[#E4E4E7] text-[#27272A] bg-[#FFFFFF] hover:border-[#71717A]'
                 }`}
               >
                 {mood}
@@ -94,7 +94,7 @@ export const MindCheckIn: React.FC = () => {
       <div className="space-y-2 pt-2">
         <label
           htmlFor="checkin-note"
-          className="block font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#78716A]"
+          className="block font-sans font-semibold text-[0.6875rem] uppercase tracking-[0.12em] text-[#71717A]"
         >
           {COPY.mind.oneLineLabel}
         </label>
@@ -104,7 +104,7 @@ export const MindCheckIn: React.FC = () => {
           value={note}
           onChange={(e) => setNote(e.target.value)}
           maxLength={140}
-          className="w-full bg-[#ECE6DA] border border-[#DFD7C8] rounded-lg px-4 py-3 font-sans text-sm text-[#1B1916] focus:outline-none focus:border-[#B85A3C]"
+          className="w-full bg-[#FFFFFF] border border-[#E4E4E7] rounded-lg px-4 py-3 font-sans text-sm text-[#09090B] focus:outline-none focus:border-[#09090B]"
         />
       </div>
 

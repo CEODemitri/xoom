@@ -1,14 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #F4F0E8;
-  --color-linen: #ECE6DA;
-  --color-sand: #DFD7C8;
-  --color-ink: #1B1916;
-  --color-graphite: #3B3732;
-  --color-smoke: #78716A;
-  --color-clay: #B85A3C;
-  --color-clay-deep: #98442A;
+  --color-paper: #FAFAFA;
+  --color-card: #FFFFFF;
+  --color-surface: #F4F4F5;
+  --color-sand: #E4E4E7;
+  --color-ink: #09090B;
+  --color-graphite: #27272A;
+  --color-smoke: #71717A;
+  --color-red: #DC2626;
+  --color-blue: #2563EB;
   --color-white: #FFFFFF;
 
   --font-serif: "Fraunces", Georgia, serif;
@@ -17,14 +18,15 @@
 }
 
 :root {
-  --color-paper: #F4F0E8;
-  --color-linen: #ECE6DA;
-  --color-sand: #DFD7C8;
-  --color-ink: #1B1916;
-  --color-graphite: #3B3732;
-  --color-smoke: #78716A;
-  --color-clay: #B85A3C;
-  --color-clay-deep: #98442A;
+  --color-paper: #FAFAFA;
+  --color-card: #FFFFFF;
+  --color-surface: #F4F4F5;
+  --color-sand: #E4E4E7;
+  --color-ink: #09090B;
+  --color-graphite: #27272A;
+  --color-smoke: #71717A;
+  --color-red: #DC2626;
+  --color-blue: #2563EB;
   --color-white: #FFFFFF;
 }
 
@@ -38,9 +40,9 @@ html, body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Accessible focus visible ring across all interactive controls */
+/* Accessible focus visible ring */
 :focus-visible {
-  outline: 2px solid #B85A3C !important;
+  outline: 2px solid #09090B !important;
   outline-offset: 2px !important;
 }
 
@@ -54,7 +56,7 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-/* Safe area insets for mobile iOS / Android */
+/* Safe area insets for mobile */
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom, 16px);
 }

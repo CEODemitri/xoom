@@ -46,11 +46,11 @@ export const TimeLimitSheet: React.FC<TimeLimitSheetProps> = ({
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.7 }}
+            animate={{ opacity: 0.4 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.28, ease: 'easeOut' }}
             onClick={onClose}
-            className="fixed inset-0 bg-[#F4F0E8]"
+            className="fixed inset-0 bg-[#09090B]"
             aria-hidden="true"
           />
 
@@ -64,21 +64,21 @@ export const TimeLimitSheet: React.FC<TimeLimitSheetProps> = ({
             exit={settings.reduceMotion ? { opacity: 0 } : { y: '100%' }}
             transition={{ duration: 0.28, ease: 'easeOut' }}
             style={{
-              boxShadow: '0 8px 24px rgba(27,25,22,0.08)',
+              boxShadow: '0 8px 30px rgba(0,0,0,0.08)',
             }}
-            className="relative w-full max-w-[720px] bg-[#ECE6DA] border-t border-x border-[#DFD7C8] rounded-t-xl p-6 md:p-8 z-10"
+            className="relative w-full max-w-[720px] bg-[#FFFFFF] border-t border-x border-[#E4E4E7] rounded-t-xl p-6 md:p-8 z-10"
           >
             <div className="flex items-center justify-between mb-6">
               <h2
                 id="sheet-title"
-                className="font-serif font-semibold text-xl md:text-2xl text-[#1B1916]"
+                className="font-serif font-semibold text-xl md:text-2xl text-[#09090B]"
               >
                 {COPY.timeSheet.title}
               </h2>
               <button
                 type="button"
                 onClick={onClose}
-                className="font-sans text-xs uppercase tracking-wider text-[#78716A] hover:text-[#1B1916] p-2 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                className="font-sans text-xs uppercase tracking-wider text-[#71717A] hover:text-[#09090B] p-2 min-h-[44px] min-w-[44px] flex items-center justify-center focus-visible:outline-2 focus-visible:outline-[#09090B]"
               >
                 {COPY.timeSheet.cancel}
               </button>
@@ -93,10 +93,10 @@ export const TimeLimitSheet: React.FC<TimeLimitSheetProps> = ({
                     key={preset.sec}
                     type="button"
                     onClick={() => handlePresetSelect(preset.sec)}
-                    className={`font-mono text-sm px-4 py-2.5 rounded-full border transition-colors select-none min-h-[44px] focus-visible:outline-2 focus-visible:outline-[#B85A3C] ${
+                    className={`font-mono text-sm px-4 py-2.5 rounded-full border transition-colors select-none min-h-[44px] focus-visible:outline-2 focus-visible:outline-[#09090B] ${
                       isSelected
-                        ? 'border-[#B85A3C] text-[#B85A3C] bg-transparent'
-                        : 'border-[#DFD7C8] text-[#3B3732] bg-transparent hover:border-[#78716A]'
+                        ? 'border-[#DC2626] text-[#DC2626] bg-[#FFFFFF] font-medium'
+                        : 'border-[#E4E4E7] text-[#27272A] bg-[#FFFFFF] hover:border-[#71717A]'
                     }`}
                   >
                     {preset.label}
@@ -107,10 +107,10 @@ export const TimeLimitSheet: React.FC<TimeLimitSheetProps> = ({
 
             {/* Custom duration */}
             <div className="flex items-center gap-3 mb-8">
-              <span className="font-sans text-xs uppercase tracking-wider text-[#78716A]">
+              <span className="font-sans text-xs uppercase tracking-wider text-[#71717A]">
                 {COPY.timeSheet.customLabel}
               </span>
-              <div className="inline-flex items-center bg-[#F4F0E8] border border-[#DFD7C8] px-3 py-2">
+              <div className="inline-flex items-center bg-[#F4F4F5] border border-[#E4E4E7] px-3 py-2">
                 <input
                   type="text"
                   inputMode="numeric"
@@ -118,9 +118,9 @@ export const TimeLimitSheet: React.FC<TimeLimitSheetProps> = ({
                   onChange={handleCustomChange}
                   placeholder="25"
                   aria-label="Custom duration in minutes"
-                  className="w-12 bg-transparent font-mono text-base text-[#1B1916] text-right focus:outline-none"
+                  className="w-12 bg-transparent font-mono text-base text-[#09090B] text-right focus:outline-none"
                 />
-                <span className="font-mono text-sm text-[#78716A] ml-1.5">
+                <span className="font-mono text-sm text-[#71717A] ml-1.5">
                   {COPY.timeSheet.minSuffix}
                 </span>
               </div>

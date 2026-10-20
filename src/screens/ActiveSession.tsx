@@ -19,7 +19,7 @@ export const ActiveSession: React.FC = () => {
   const [a11yAnnouncement, setA11yAnnouncement] = useState('Session started');
   const intervalRef = useRef<number | null>(null);
 
-  // If no active session exists (e.g. navigated directly or ended), redirect to /train
+  // If no active session exists, redirect to /train
   useEffect(() => {
     if (!activeSession) {
       navigate('/train', { replace: true });
@@ -58,7 +58,7 @@ export const ActiveSession: React.FC = () => {
       ? workouts.find((w) => w.id === activeSession.workoutIds[activeSession.currentWorkoutIndex])
       : null;
 
-  // Compute display time: count-up or count-down
+  // Compute display time
   const isCountDown = settings.timerMode === 'down' && activeSession.targetDurationSec > 0;
   let displayTotalSec = activeSession.elapsedSec;
   if (isCountDown) {
@@ -80,7 +80,6 @@ export const ActiveSession: React.FC = () => {
     setA11yAnnouncement('Session ended');
     const finalSession = endActiveSession();
     if (finalSession) {
-      // Pass final session stats via sessionStorage / temporary state to complete screen
       sessionStorage.setItem('lastCompletedSession', JSON.stringify(finalSession));
       navigate('/train/complete');
     } else {
@@ -97,18 +96,31 @@ export const ActiveSession: React.FC = () => {
     activeSession.currentWorkoutIndex >= activeSession.workoutIds.length - 1;
 
   return (
-    <div className="min-h-screen -mt-6 -mx-5 px-5 py-6 flex flex-col justify-between bg-[#F4F0E8] select-none">
-      {/* Hidden live region for screen readers */}
+    <div className="min-h-screen -mt-2 -mx-4 sm:-mx-5 px-4 sm:px-5 py-6 flex flex-col justify-between bg-[#FAFAFA] select-none">
+      {/* Hidden live region */}
       <div className="sr-only" aria-live="polite">
         {a11yAnnouncement}
       </div>
 
-      {/* Top action: single END button top-right */}
-      <div className="flex justify-end pt-2">
+      {/* Top bar: In-progress status badge and End button */}
+      <div className="flex items-center justify-between pt-2">
+        <div className="flex items-center gap-2">
+          {/* Subtle sporadic Red dot indicating IN PROGRESS */}
+          <span
+            className={`w-2 h-2 rounded-full ${
+              activeSession.isPaused ? 'bg-[#71717A]' : 'bg-[#DC2626] animate-pulse'
+            }`}
+            aria-hidden="true"
+          />
+          <span className="font-sans text-[11px] uppercase tracking-wider text-[#71717A] font-medium">
+            {activeSession.isPaused ? 'Paused' : 'In Progress'}
+          </span>
+        </div>
+
         <button
           type="button"
           onClick={handleEnd}
-          className="font-sans font-semibold text-xs uppercase tracking-wider text-[#B85A3C] hover:text-[#98442A] p-2 min-h-[44px] min-w-[44px] flex items-center justify-center focus-visible:outline-2 focus-visible:outline-[#B85A3C]"
+          className="font-sans font-semibold text-xs uppercase tracking-wider text-[#DC2626] hover:text-[#B91C1C] p-2 min-h-[44px] min-w-[44px] flex items-center justify-center focus-visible:outline-2 focus-visible:outline-[#09090B]"
         >
           {COPY.active.end}
         </button>
@@ -120,18 +132,22 @@ export const ActiveSession: React.FC = () => {
         <div
           aria-live="off"
           className={`font-mono font-medium text-[clamp(4.25rem,18vw,7.5rem)] tracking-[-0.02em] leading-none tabular-nums transition-colors duration-200 ${
-            activeSession.isPaused ? 'text-[#78716A]' : 'text-[#1B1916]'
+            activeSession.isPaused ? 'text-[#71717A]' : 'text-[#09090B]'
           }`}
         >
           <span>{mm}</span>
           <span
-            className={
+            className={`${
+              activeSession.isPaused
+                ? 'text-[#71717A]'
+                : 'text-[#DC2626]'
+            } ${
               settings.reduceMotion
                 ? 'opacity-100'
                 : colonVisible
                 ? 'opacity-100'
                 : 'opacity-20'
-            }
+            }`}
           >
             :
           </span>
@@ -140,16 +156,16 @@ export const ActiveSession: React.FC = () => {
 
         {/* Paused state text */}
         {activeSession.isPaused ? (
-          <p className="font-sans text-sm text-[#78716A] mt-4 tracking-wide uppercase">
+          <p className="font-sans text-sm text-[#71717A] mt-4 tracking-wide uppercase">
             {COPY.active.pausedLabel}
           </p>
         ) : currentWorkout ? (
           <div className="mt-6 flex flex-col items-center">
-            <h2 className="font-serif font-medium text-lg md:text-xl text-[#78716A]">
+            <h2 className="font-serif font-medium text-lg md:text-xl text-[#71717A]">
               {currentWorkout.name}
             </h2>
             {currentWorkout.durationMin && (
-              <span className="font-mono text-xs text-[#78716A] mt-1">
+              <span className="font-mono text-xs text-[#71717A] mt-1">
                 ~{currentWorkout.durationMin}m
               </span>
             )}
@@ -165,7 +181,7 @@ export const ActiveSession: React.FC = () => {
           <button
             type="button"
             onClick={handleNextWorkout}
-            className="font-sans font-medium text-xs uppercase tracking-wider text-[#78716A] hover:text-[#1B1916] p-2 min-h-[44px] focus-visible:outline-2 focus-visible:outline-[#B85A3C]"
+            className="font-sans font-medium text-xs uppercase tracking-wider text-[#71717A] hover:text-[#09090B] p-2 min-h-[44px] focus-visible:outline-2 focus-visible:outline-[#09090B]"
           >
             {COPY.active.next}
           </button>
@@ -175,7 +191,7 @@ export const ActiveSession: React.FC = () => {
         <button
           type="button"
           onClick={handleTogglePause}
-          className="font-sans font-semibold text-xs uppercase tracking-wider text-[#3B3732] hover:text-[#1B1916] p-3 min-h-[44px] min-w-[120px] focus-visible:outline-2 focus-visible:outline-[#B85A3C]"
+          className="font-sans font-semibold text-xs uppercase tracking-wider text-[#27272A] hover:text-[#09090B] p-3 min-h-[44px] min-w-[120px] focus-visible:outline-2 focus-visible:outline-[#09090B]"
         >
           {activeSession.isPaused ? COPY.active.resume : COPY.active.pause}
         </button>

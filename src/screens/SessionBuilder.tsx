@@ -84,13 +84,13 @@ export const SessionBuilder: React.FC = () => {
     <div className="flex flex-col h-full max-h-[calc(100dvh-56px)] overflow-hidden">
       {/* Header - Compact */}
       <div className="mb-2 shrink-0">
-        <h1 className="font-serif font-semibold text-2xl sm:text-3xl text-[#1B1916] tracking-[-0.02em]">
+        <h1 className="font-serif font-semibold text-2xl sm:text-3xl text-[#09090B] tracking-[-0.02em]">
           {COPY.train.buildTitle}
         </h1>
       </div>
 
-      {/* Sticky Filter Chips - Compact single scrollable row */}
-      <div className="shrink-0 bg-[#F4F0E8] py-1.5 -mx-4 sm:-mx-5 px-4 sm:px-5 border-b border-[#DFD7C8] overflow-x-auto no-scrollbar">
+      {/* Sticky Filter Chips */}
+      <div className="shrink-0 bg-[#FAFAFA] py-1.5 -mx-4 sm:-mx-5 px-4 sm:px-5 border-b border-[#E4E4E7] overflow-x-auto no-scrollbar">
         <div className="flex items-center gap-1.5 min-w-max pb-0.5">
           {/* Body Area */}
           {(['Upper', 'Lower', 'Core', 'Full Body'] as FilterBodyArea[]).map((area) => (
@@ -99,12 +99,13 @@ export const SessionBuilder: React.FC = () => {
               label={area}
               selected={selectedBodyAreas.includes(area)}
               onClick={() => toggleBodyArea(area)}
+              variant="neutral"
               isReducedMotion={settings.reduceMotion}
               className="py-1 px-2.5 text-[11px]"
             />
           ))}
 
-          <span className="w-px h-4 bg-[#DFD7C8] mx-1 shrink-0" aria-hidden="true" />
+          <span className="w-px h-4 bg-[#E4E4E7] mx-1 shrink-0" aria-hidden="true" />
 
           {/* Equipment */}
           {(['None', 'Dumbbell', 'Barbell', 'Kettlebell', 'Mat'] as FilterEquipment[]).map((eq) => (
@@ -113,12 +114,13 @@ export const SessionBuilder: React.FC = () => {
               label={eq}
               selected={selectedEquipments.includes(eq)}
               onClick={() => toggleEquipment(eq)}
+              variant="neutral"
               isReducedMotion={settings.reduceMotion}
               className="py-1 px-2.5 text-[11px]"
             />
           ))}
 
-          <span className="w-px h-4 bg-[#DFD7C8] mx-1 shrink-0" aria-hidden="true" />
+          <span className="w-px h-4 bg-[#E4E4E7] mx-1 shrink-0" aria-hidden="true" />
 
           {/* Duration */}
           {(['< 5m', '5-15m', '> 15m'] as FilterDuration[]).map((dur) => (
@@ -127,6 +129,7 @@ export const SessionBuilder: React.FC = () => {
               label={dur}
               selected={selectedDurations.includes(dur)}
               onClick={() => toggleDuration(dur)}
+              variant="neutral"
               isReducedMotion={settings.reduceMotion}
               font="mono"
               className="py-1 px-2.5 text-[11px]"
@@ -138,16 +141,14 @@ export const SessionBuilder: React.FC = () => {
       {/* Masonry Pool Cards - Internal Scrollable within 100vh */}
       <div className="flex-1 overflow-y-auto min-h-0 py-2.5 pr-0.5">
         {filteredWorkouts.length === 0 ? (
-          <p className="font-sans text-xs text-[#78716A] py-6 text-center">
+          <p className="font-sans text-xs text-[#71717A] py-6 text-center">
             {COPY.train.noFilteredWorkouts}
           </p>
         ) : (
           <div className="columns-2 sm:columns-3 gap-2 sm:gap-2.5">
             {filteredWorkouts.map((workout, idx) => {
               const isSelected = selectedWorkoutIds.includes(workout.id);
-              // Slight visual variations for organic masonry heights
               const hasMultipleEquipment = workout.equipment.length > 1;
-              const hasMultipleAreas = workout.bodyArea.length > 1;
 
               return (
                 <motion.button
@@ -155,25 +156,25 @@ export const SessionBuilder: React.FC = () => {
                   type="button"
                   onClick={() => toggleWorkoutSelection(workout.id)}
                   whileTap={!settings.reduceMotion ? { scale: 0.97 } : undefined}
-                  className={`break-inside-avoid mb-2 sm:mb-2.5 w-full inline-block text-left bg-[#ECE6DA] p-2.5 sm:p-3 rounded-xl border transition-colors select-none focus-visible:outline-2 focus-visible:outline-[#B85A3C] ${
+                  className={`break-inside-avoid mb-2 sm:mb-2.5 w-full inline-block text-left bg-[#FFFFFF] p-2.5 sm:p-3 rounded-xl border transition-colors select-none focus-visible:outline-2 focus-visible:outline-[#09090B] shadow-[0_1px_2px_rgba(0,0,0,0.02)] ${
                     isSelected
-                      ? 'border-[#B85A3C] ring-1 ring-[#B85A3C]'
-                      : 'border-[#DFD7C8] hover:border-[#78716A]/70'
+                      ? 'border-[#DC2626] ring-1 ring-[#DC2626]'
+                      : 'border-[#E4E4E7] hover:border-[#71717A]/70'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-1.5">
-                    <h3 className="font-serif font-medium text-xs sm:text-[0.875rem] text-[#1B1916] leading-snug line-clamp-2">
+                    <h3 className="font-serif font-medium text-xs sm:text-[0.875rem] text-[#09090B] leading-snug line-clamp-2">
                       {workout.name}
                     </h3>
                     {isSelected && (
                       <span
-                        className="w-2 h-2 rounded-full bg-[#B85A3C] shrink-0 mt-0.5"
-                        aria-label="Selected"
+                        className="w-2 h-2 rounded-full bg-[#DC2626] shrink-0 mt-0.5"
+                        aria-label="In progress selection"
                       />
                     )}
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-1 mt-1.5 text-[10px] sm:text-[11px] text-[#78716A] leading-tight">
+                  <div className="flex flex-wrap items-center gap-1 mt-1.5 text-[10px] sm:text-[11px] text-[#71717A] leading-tight">
                     <span>{workout.bodyArea.join(', ')}</span>
                     {(hasMultipleEquipment || workout.equipment[0] !== 'None') && (
                       <>
@@ -183,12 +184,12 @@ export const SessionBuilder: React.FC = () => {
                     )}
                   </div>
 
-                  <div className="flex items-center justify-between mt-2 pt-1 border-t border-[#DFD7C8]/50">
-                    <span className="font-mono text-[10px] sm:text-[11px] text-[#78716A] tabular-nums">
+                  <div className="flex items-center justify-between mt-2 pt-1 border-t border-[#E4E4E7]">
+                    <span className="font-mono text-[10px] sm:text-[11px] text-[#71717A] tabular-nums">
                       {workout.durationMin ? `${workout.durationMin}m` : '—'}
                     </span>
                     {idx % 3 === 0 && (
-                      <span className="font-sans text-[9px] uppercase tracking-wider text-[#78716A]/75">
+                      <span className="font-sans text-[9px] uppercase tracking-wider text-[#A1A1AA]">
                         {workout.bodyArea[0]}
                       </span>
                     )}
@@ -200,14 +201,19 @@ export const SessionBuilder: React.FC = () => {
         )}
       </div>
 
-      {/* Sticky Session Tray - Docked above bottom tab bar within 100vh */}
-      <div className="shrink-0 bg-[#F4F0E8] border-t border-[#DFD7C8] py-2.5 px-1 mb-16 z-20">
+      {/* Sticky Session Tray */}
+      <div className="shrink-0 bg-[#FAFAFA] border-t border-[#E4E4E7] py-2.5 px-1 mb-16 z-20">
         <div className="flex items-center justify-between gap-3">
           <div className="flex flex-col">
-            <span className="font-sans font-semibold text-xs text-[#1B1916]">
-              {COPY.train.selectedCount(selectedWorkouts.length)}
-            </span>
-            <span className="font-mono text-[11px] text-[#78716A]">
+            <div className="flex items-center gap-1.5">
+              {selectedWorkouts.length > 0 && (
+                <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" aria-hidden="true" />
+              )}
+              <span className="font-sans font-semibold text-xs text-[#09090B]">
+                {COPY.train.selectedCount(selectedWorkouts.length)}
+              </span>
+            </div>
+            <span className="font-mono text-[11px] text-[#71717A]">
               {selectedWorkouts.length > 0 ? COPY.train.estTime(totalEstTimeMin) : '—'}
             </span>
           </div>

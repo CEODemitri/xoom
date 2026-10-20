@@ -22,7 +22,7 @@ export const SettingsScreen: React.FC = () => {
         <button
           type="button"
           onClick={() => navigate('/you')}
-          className="inline-flex items-center gap-1 font-sans text-xs uppercase tracking-wider text-[#78716A] hover:text-[#1B1916] p-1 -ml-1 focus-visible:outline-2 focus-visible:outline-[#B85A3C]"
+          className="inline-flex items-center gap-1 font-sans text-xs uppercase tracking-wider text-[#71717A] hover:text-[#09090B] p-1 -ml-1 focus-visible:outline-2 focus-visible:outline-[#09090B]"
         >
           <ChevronLeft size={16} aria-hidden="true" />
           <span>{COPY.you.title}</span>
@@ -30,25 +30,25 @@ export const SettingsScreen: React.FC = () => {
       </div>
 
       <div>
-        <h1 className="font-serif font-semibold text-3xl md:text-4xl text-[#1B1916] tracking-[-0.02em]">
+        <h1 className="font-serif font-semibold text-3xl md:text-4xl text-[#09090B] tracking-[-0.02em]">
           {COPY.settings.title}
         </h1>
       </div>
 
-      <div className="border-t border-[#DFD7C8]">
+      <div className="border-t border-[#E4E4E7] bg-[#FFFFFF] border border-[#E4E4E7] rounded-xl px-5 divide-y divide-[#E4E4E7]">
         {/* Timer Mode: Count up / Count down */}
-        <div className="py-4 border-b border-[#DFD7C8] flex items-center justify-between gap-4">
-          <span className="font-sans font-medium text-[0.9375rem] text-[#3B3732]">
+        <div className="py-4 flex items-center justify-between gap-4">
+          <span className="font-sans font-medium text-[0.9375rem] text-[#27272A]">
             {COPY.settings.timerMode}
           </span>
-          <div className="inline-flex border border-[#DFD7C8] p-0.5 bg-[#ECE6DA]">
+          <div className="inline-flex border border-[#E4E4E7] p-0.5 bg-[#F4F4F5] rounded-lg">
             <button
               type="button"
               onClick={() => updateSettings({ timerMode: 'up' })}
-              className={`px-3 py-1.5 font-sans text-xs font-medium transition-colors select-none ${
+              className={`px-3 py-1.5 font-sans text-xs font-medium rounded-md transition-colors select-none ${
                 settings.timerMode === 'up'
-                  ? 'bg-[#1B1916] text-[#FFFFFF]'
-                  : 'text-[#3B3732] hover:text-[#1B1916]'
+                  ? 'bg-[#09090B] text-[#FFFFFF]'
+                  : 'text-[#27272A] hover:text-[#09090B]'
               }`}
             >
               {COPY.settings.timerCountUp}
@@ -56,10 +56,10 @@ export const SettingsScreen: React.FC = () => {
             <button
               type="button"
               onClick={() => updateSettings({ timerMode: 'down' })}
-              className={`px-3 py-1.5 font-sans text-xs font-medium transition-colors select-none ${
+              className={`px-3 py-1.5 font-sans text-xs font-medium rounded-md transition-colors select-none ${
                 settings.timerMode === 'down'
-                  ? 'bg-[#1B1916] text-[#FFFFFF]'
-                  : 'text-[#3B3732] hover:text-[#1B1916]'
+                  ? 'bg-[#09090B] text-[#FFFFFF]'
+                  : 'text-[#27272A] hover:text-[#09090B]'
               }`}
             >
               {COPY.settings.timerCountDown}
@@ -68,18 +68,18 @@ export const SettingsScreen: React.FC = () => {
         </div>
 
         {/* Units: Minutes / Minutes and seconds */}
-        <div className="py-4 border-b border-[#DFD7C8] flex items-center justify-between gap-4">
-          <span className="font-sans font-medium text-[0.9375rem] text-[#3B3732]">
+        <div className="py-4 flex items-center justify-between gap-4">
+          <span className="font-sans font-medium text-[0.9375rem] text-[#27272A]">
             {COPY.settings.units}
           </span>
-          <div className="inline-flex border border-[#DFD7C8] p-0.5 bg-[#ECE6DA]">
+          <div className="inline-flex border border-[#E4E4E7] p-0.5 bg-[#F4F4F5] rounded-lg">
             <button
               type="button"
               onClick={() => updateSettings({ units: 'min' })}
-              className={`px-3 py-1.5 font-sans text-xs font-medium transition-colors select-none ${
+              className={`px-3 py-1.5 font-sans text-xs font-medium rounded-md transition-colors select-none ${
                 settings.units === 'min'
-                  ? 'bg-[#1B1916] text-[#FFFFFF]'
-                  : 'text-[#3B3732] hover:text-[#1B1916]'
+                  ? 'bg-[#09090B] text-[#FFFFFF]'
+                  : 'text-[#27272A] hover:text-[#09090B]'
               }`}
             >
               {COPY.settings.unitsMin}
@@ -87,10 +87,10 @@ export const SettingsScreen: React.FC = () => {
             <button
               type="button"
               onClick={() => updateSettings({ units: 'minsec' })}
-              className={`px-3 py-1.5 font-sans text-xs font-medium transition-colors select-none ${
+              className={`px-3 py-1.5 font-sans text-xs font-medium rounded-md transition-colors select-none ${
                 settings.units === 'minsec'
-                  ? 'bg-[#1B1916] text-[#FFFFFF]'
-                  : 'text-[#3B3732] hover:text-[#1B1916]'
+                  ? 'bg-[#09090B] text-[#FFFFFF]'
+                  : 'text-[#27272A] hover:text-[#09090B]'
               }`}
             >
               {COPY.settings.unitsMinSec}
@@ -99,8 +99,8 @@ export const SettingsScreen: React.FC = () => {
         </div>
 
         {/* Reduce motion */}
-        <div className="py-4 border-b border-[#DFD7C8] flex items-center justify-between gap-4">
-          <span className="font-sans font-medium text-[0.9375rem] text-[#3B3732]">
+        <div className="py-4 flex items-center justify-between gap-4">
+          <span className="font-sans font-medium text-[0.9375rem] text-[#27272A]">
             {COPY.settings.reduceMotion}
           </span>
           <button
@@ -108,14 +108,14 @@ export const SettingsScreen: React.FC = () => {
             role="switch"
             aria-checked={settings.reduceMotion}
             onClick={() => updateSettings({ reduceMotion: !settings.reduceMotion })}
-            className={`w-12 h-6 border transition-colors relative flex items-center px-0.5 focus-visible:outline-2 focus-visible:outline-[#B85A3C] ${
+            className={`w-12 h-6 border transition-colors relative flex items-center px-0.5 rounded-full focus-visible:outline-2 focus-visible:outline-[#09090B] ${
               settings.reduceMotion
-                ? 'bg-[#B85A3C] border-[#B85A3C]'
-                : 'bg-[#ECE6DA] border-[#DFD7C8]'
+                ? 'bg-[#09090B] border-[#09090B]'
+                : 'bg-[#E4E4E7] border-[#E4E4E7]'
             }`}
           >
             <span
-              className={`w-4 h-4 bg-white transition-transform ${
+              className={`w-4 h-4 rounded-full bg-white transition-transform ${
                 settings.reduceMotion ? 'translate-x-6' : 'translate-x-0'
               }`}
             />
@@ -123,11 +123,11 @@ export const SettingsScreen: React.FC = () => {
         </div>
 
         {/* About Xoom */}
-        <div className="py-4 border-b border-[#DFD7C8] flex flex-col space-y-1">
-          <span className="font-sans font-medium text-[0.9375rem] text-[#3B3732]">
+        <div className="py-4 flex flex-col space-y-1">
+          <span className="font-sans font-medium text-[0.9375rem] text-[#27272A]">
             {COPY.settings.about}
           </span>
-          <p className="font-sans text-xs text-[#78716A] leading-relaxed">
+          <p className="font-sans text-xs text-[#71717A] leading-relaxed">
             {COPY.settings.aboutText}
           </p>
         </div>
@@ -135,21 +135,21 @@ export const SettingsScreen: React.FC = () => {
         {/* Clear all data */}
         <div className="py-5">
           {showClearConfirm ? (
-            <div className="flex items-center gap-4 bg-[#ECE6DA] p-3 rounded-lg border border-[#DFD7C8]">
-              <span className="font-sans text-xs text-[#1B1916]">
+            <div className="flex items-center gap-4 bg-[#F4F4F5] p-3 rounded-lg border border-[#E4E4E7]">
+              <span className="font-sans text-xs text-[#09090B]">
                 Reset and erase all logs?
               </span>
               <button
                 type="button"
                 onClick={handleClear}
-                className="font-sans font-semibold text-xs uppercase tracking-wider text-[#B85A3C] hover:text-[#98442A] p-2"
+                className="font-sans font-semibold text-xs uppercase tracking-wider text-[#DC2626] hover:text-[#B91C1C] p-2"
               >
                 {COPY.settings.confirmClear}
               </button>
               <button
                 type="button"
                 onClick={() => setShowClearConfirm(false)}
-                className="font-sans text-xs uppercase tracking-wider text-[#78716A] hover:text-[#1B1916] p-2"
+                className="font-sans text-xs uppercase tracking-wider text-[#71717A] hover:text-[#09090B] p-2"
               >
                 {COPY.settings.cancelClear}
               </button>
@@ -158,7 +158,7 @@ export const SettingsScreen: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowClearConfirm(true)}
-              className="font-sans font-semibold text-xs uppercase tracking-wider text-[#B85A3C] hover:text-[#98442A] p-2 -ml-2 min-h-[44px] flex items-center focus-visible:outline-2 focus-visible:outline-[#B85A3C]"
+              className="font-sans font-semibold text-xs uppercase tracking-wider text-[#DC2626] hover:text-[#B91C1C] p-2 -ml-2 min-h-[44px] flex items-center focus-visible:outline-2 focus-visible:outline-[#09090B]"
             >
               {COPY.settings.clearData}
             </button>
