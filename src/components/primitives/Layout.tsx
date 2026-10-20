@@ -17,6 +17,7 @@ export const Layout: React.FC = () => {
     location.pathname === '/mind/pause';
 
   const isBuildRoute = location.pathname === '/train/build';
+  const isLandingRoute = location.pathname === '/train' || location.pathname === '/';
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] text-[#18181B] flex flex-col font-sans">
@@ -37,6 +38,8 @@ export const Layout: React.FC = () => {
             ? 'flex-1 py-6'
             : isBuildRoute
             ? 'h-[calc(100dvh-56px)] max-h-[calc(100dvh-56px)] flex flex-col pt-2 pb-0 overflow-hidden'
+            : isLandingRoute
+            ? 'h-[calc(100dvh-56px)] max-h-[calc(100dvh-56px)] flex flex-col pt-2 sm:pt-3 pb-20 overflow-hidden'
             : 'flex-1 pt-4 pb-28 md:py-8 md:pb-28'
         }`}
       >
@@ -62,7 +65,7 @@ export const Layout: React.FC = () => {
               duration: settings.reduceMotion ? 0.15 : 0.22,
               ease: 'easeOut',
             }}
-            className={isBuildRoute ? 'w-full h-full flex flex-col min-h-0' : 'w-full'}
+            className={isLandingRoute || isBuildRoute ? 'w-full h-full flex flex-col min-h-0' : 'w-full'}
           >
             <Outlet />
           </motion.div>
